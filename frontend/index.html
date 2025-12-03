@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Application Générique Conteneurisée</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+        .status { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Statut de l'API et des Éléments</h1>
+    <p>API URL: <span id="api-url"></span></p>
+    <div id="status" class="status">Vérification du statut...</div>
+    <hr>
+    <h2>Liste des Tâches Conteneurisées (via API)</h2>
+    <div id="items-list">Chargement des éléments...</div>
+
+    <script>
+        const ITEMS_ENDPOINT = API_URL + '/items';
+        const STATUS_ENDPOINT = API_URL + '/status';
+        
+        document.getElementById('api-url').textContent = "Via Nginx Proxy";
+
+        async function checkStatus() {
+            try {
+                const response = await fetch(STATUS_ENDPOINT);
+                const data = await response.json();
+                const statusDiv = document.getElementById('status');
+                
+                if (response.ok && data.status === 'OK') {
+                    statusDiv.textContent = `API & DB Status: OK (DB: ${data.database_status})`;
+                    statusDiv.style.color = 'green';
+                } else {
+                    statusDiv.textContent = `API Status: ERROR (${data.details || 'Voir logs du conteneur'})`;
+                    statusDiv.style.color = 'red';
+                }
+            } catch (error) {
+                document.getElementById('status').textContent = `Erreur de connexion à l'API: ${error.message}`;
+                document.getElementById('status').style.color = 'red';
+            }
+        }
+        
+        async function fetchItems() {
+            try {
+                const response = await fetch(ITEMS_ENDPOINT);
+                const items = await response.json();
+                const listDiv = document.getElementById('items-list');
+                
+                if (response.ok) {
+                    listDiv.innerHTML = ''; 
+                    items.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'item';
+                        div.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
+                        listDiv.appendChild(div);
+                    });
+                } else {
+                    listDiv.innerHTML = `Erreur de récupération des données: ${items.error || 'Erreur inconnue'}`;
+                }
+            } catch (error) {
+                document.getElementById('items-list').innerHTML = `Impossible de joindre l'API pour les données: ${error.message}`;
+            }
+        }
+
+        checkStatus();
+        fetchItems();
+    </script>
+</body>
+</html>
