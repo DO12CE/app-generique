@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  # BDD 
+  db:
+    image: postgres:16-alpine
+    container_name: generic-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # API (Backend)
+  api:
+    build: 
+      context: ./api 
+    ports:
+      - "${HOST_API_PORT}:${API_PORT}" 
+    environment: 
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      API_PORT: ${API_PORT}
+    depends_on: 
+      db:
+        condition: service_healthy 
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:${API_PORT}/status"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    
+  # Front
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "${HOST_FRONT_PORT}:${FRONT_PORT}"
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  db-data: {} 
