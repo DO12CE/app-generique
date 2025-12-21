@@ -91,8 +91,8 @@ ACCÈS :
 .
 |-- api/      
 |-- frontend/  
-|-- db-init/
-|-- script/
-|-- docker-compose.yml
-|-- .env
-`-- README.txt
+|-- db-init/  
+|-- script/  
+|-- docker-compose.yml  
+|-- .env  
+`-- README.txt  
