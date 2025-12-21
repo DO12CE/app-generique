@@ -1,16 +1,18 @@
-
+# Fichier docker-compose.yml complet avec services, volumes et networks (4a)
 services:
   # BDD 
   db:
     image: postgres:16-alpine
     container_name: generic-db
     environment:
+    # Gestion et Utilisation d’un fichier de configuration .env et variables correctement externes (1a et 4c)
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d
+    # Définition et utilisation des healthchecks(4b)
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
