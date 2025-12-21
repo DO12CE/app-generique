@@ -1,9 +1,7 @@
-========================================================================
 PROJET : APPLICATION 3-TIER CONTENEURISÉE
 AUTEUR : Yousra Zaabat
 DATE   : 21/12/2025
 CONTEXTE : Module DOCKER (B3DEVIA)
-========================================================================
 
 1. DESCRIPTION DU PROJET
 ------------------------------------------------------------------------
@@ -45,10 +43,10 @@ Il simule une pipeline CI/CD locale en exécutant les étapes suivantes :
 COMMANDES :
    
    # 1. Rendre le script exécutable (si nécessaire)
-   chmod +x scripts/build_and_deploy.sh
+   chmod +x script/build_and_deploy.sh
 
    # 2. Lancer la pipeline complète
-   ./scripts/build_and_deploy.sh
+   ./script/build_and_deploy.sh
 
 5. DÉMARRAGE MANUEL (ALTERNATIVE)
 ------------------------------------------------------------------------
@@ -91,10 +89,10 @@ ACCÈS :
 8. STRUCTURE DU DOSSIER
 ------------------------------------------------------------------------
 .
-|-- api/                # Code source Python et Dockerfile API
-|-- frontend/           # Code source HTML/Nginx et Dockerfile Front
-|-- db-init/            # Script SQL d'initialisation (init.sql)
-|-- scripts/            # Script d'automatisation (build_and_deploy.sh)
-|-- docker-compose.yml  # Orchestration des services
-|-- .env                # Variables d'environnement
-`-- README.txt          # Ce fichier
+|-- api/      
+|-- frontend/  
+|-- db-init/
+|-- script/
+|-- docker-compose.yml
+|-- .env
+`-- README.txt
