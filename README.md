@@ -9,19 +9,18 @@ Ce projet met en œuvre une architecture web complète (Frontend, Backend,
 Base de données) entièrement conteneurisée et orchestrée avec Docker Compose.
 
 L'architecture repose sur 3 tiers :
-1. Frontend : Serveur Nginx (Alpine) servant l'interface et agissant 
-   [cite_start]comme Reverse-Proxy [cite: 127-131].
-2. [cite_start]Backend  : API Python Flask exposant les routes /status et /items [cite: 56-59].
-3. [cite_start]Database : PostgreSQL 16 (Alpine) avec persistance des données[cite: 13].
+1. Frontend : Serveur Nginx (Alpine) servant l'interface et agissant comme Reverse-Proxy [cite: 127-131].
+2. Backend  : API Python Flask exposant les routes /status et /items [cite: 56-59].
+3. Database : PostgreSQL 16 (Alpine) avec persistance des données[cite: 13].
 
 2. FONCTIONNALITÉS CLÉS ET SÉCURITÉ
 ------------------------------------------------------------------------
-- [cite_start]Builds Multi-étapes : Réduction de la taille des images (API & Front)[cite: 326].
-- [cite_start]Sécurité Non-Root : Utilisation d'un utilisateur 'appuser' limité[cite: 343].
-- [cite_start]Images Légères : Utilisation exclusive de bases Alpine et Slim[cite: 331].
-- [cite_start]Automatisation : Script de déploiement (Validation, Build, Scan, Run)[cite: 268].
-- [cite_start]Healthchecks : Gestion automatique de l'ordre de démarrage[cite: 210].
-- [cite_start]Configuration : Externalisation des variables sensibles (.env)[cite: 87].
+- Builds Multi-étapes : Réduction de la taille des images (API & Front)[cite: 326].
+- Sécurité Non-Root : Utilisation d'un utilisateur 'appuser' limité[cite: 343].
+- Images Légères : Utilisation exclusive de bases Alpine et Slim[cite: 331].
+- Automatisation : Script de déploiement (Validation, Build, Scan, Run)[cite: 268].
+- Healthchecks : Gestion automatique de l'ordre de démarrage[cite: 210].
+- Configuration : Externalisation des variables sensibles (.env)[cite: 87].
 
 3. PRÉREQUIS
 ------------------------------------------------------------------------
@@ -42,7 +41,7 @@ Il simule une pipeline CI/CD locale en exécutant les étapes suivantes :
 
 COMMANDES :
    
-   # 1. Rendre le script exécutable (si nécessaire)
+   # 1. Rendre le script exécutable 
    chmod +x script/build_and_deploy.sh
 
    # 2. Lancer la pipeline complète
